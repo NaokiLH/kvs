@@ -1,0 +1,26 @@
+name: kvs
+version: "0.1.0"
+author: NaokiLH. <2629936804@qq.com>
+about: the kv store 
+subcommands:
+    - set:
+        about: Set the value of a string key to a string
+        args: 
+            - KEY: 
+                required: true
+                help: a string key
+            - VALUE:
+                required: true
+                help: The string value of the key
+    - get:
+        about: Get the string value of a given string key
+        args:
+            - KEY:
+                required: true
+                help: a string key
+    - rm:
+        about: Remove a given key
+        args:
+            - KEY:
+                required: true
+                help: a string key
