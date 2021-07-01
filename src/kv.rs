@@ -68,7 +68,7 @@ impl KvStore {
             }
         }
         if self.uncompacted > COMPACTION_THRESHOLD {
-            self.compact()?;
+            self.compact()?
         }
         //TODO
         //uncompacted deal with
