@@ -1,5 +1,5 @@
 name: kvs
-version: "0.1.0"
+version: "0.1.1"
 author: NaokiLH. <2629936804@qq.com>
 about: the kv store 
 subcommands:
