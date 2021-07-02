@@ -2,6 +2,7 @@ use crate::{KvsError, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::Deserializer;
 use std::collections::BTreeMap;
+use std::ffi::OsStr;
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
@@ -26,10 +27,10 @@ pub struct KvStore {
 }
 
 impl KvStore {
-    //open database
+    //open database or new database
     pub fn open(path: impl Into<PathBuf>) -> Result<KvStore> {
         let path = path.into();
-        fs::create_dir(&path).unwrap();
+        fs::create_dir_all(&path)?;
         let mut readers = HashMap::new();
         let mut index = BTreeMap::new();
 
@@ -70,8 +71,6 @@ impl KvStore {
         if self.uncompacted > COMPACTION_THRESHOLD {
             self.compact()?
         }
-        //TODO
-        //uncompacted deal with
         Ok(())
     }
     //get command
@@ -80,7 +79,7 @@ impl KvStore {
             let reader = self
                 .readers
                 .get_mut(&cmd_pos.gen)
-                .expect("Can't find log file");
+                .expect("Cannot find log reader");
             reader.seek(SeekFrom::Start(cmd_pos.pos))?;
             let cmd_reader = reader.take(cmd_pos.len);
             if let Command::Set { value, .. } = serde_json::from_reader(cmd_reader)? {
@@ -92,6 +91,7 @@ impl KvStore {
             Ok(None)
         }
     }
+
     //remove command
     pub fn remove(&mut self, key: String) -> Result<()> {
         if self.index.contains_key(&key) {
@@ -99,7 +99,7 @@ impl KvStore {
             let cmd = Command::remove(key);
             serde_json::to_writer(&mut self.writer, &cmd)?;
             self.writer.flush()?;
-            let old_cmd = self.index.remove(&key2).expect("key not exist");
+            let old_cmd = self.index.remove(&key2).expect("Key not found");
             self.uncompacted += old_cmd.len;
             Ok(())
         } else {
@@ -201,20 +201,36 @@ fn recover_log(dir: &Path, gen: u64) -> PathBuf {
 }
 
 fn gen_file_list(path: &Path) -> Result<Vec<u64>> {
-    let iter = fs::read_dir(&path).unwrap();
-    let mut file_list = Vec::<u64>::new();
+    //! my implement
 
-    for i in iter {
-        let path = i.unwrap().path();
-        if path.is_file() && path.extension() == Some("log".as_ref()) {
-            let path = path.to_str().unwrap();
-            let path = path.trim_end_matches(".log");
-            let path: u64 = path.parse().expect("the path is not a u64 file");
-            file_list.push(path);
-        }
-    }
+    // let iter = fs::read_dir(&path)?;
+    // let mut file_list = Vec::<u64>::new();
 
-    Ok(file_list)
+    // for i in iter {
+    //     let path = i.unwrap().path();
+    //     if path.is_file() && path.extension() == Some("log".as_ref()) {
+    //         let path = path.to_str().unwrap();
+    //         let path = path.trim_end_matches(".log");
+    //         let path: u64 = path.parse().expect("the path is not a u64 file");
+    //         file_list.push(path);
+    //     }
+    // }
+
+    // Ok(file_list)
+    let mut gen_list: Vec<u64> = fs::read_dir(&path)?
+        .flat_map(|res| -> Result<_> { Ok(res?.path()) })
+        .filter(|path| path.is_file() && path.extension() == Some("log".as_ref())) //.extension()是求文件后缀，as_ref()解引用，is_file()判定是否是file
+        .flat_map(|path| {
+            path.file_name()
+                .and_then(OsStr::to_str)
+                .map(|s| s.trim_end_matches(".log"))
+                .map(str::parse::<u64>)
+        })
+        .flatten()
+        .collect();
+    gen_list.sort_unstable();
+
+    Ok(gen_list)
 }
 #[derive(Serialize, Deserialize, Debug)]
 enum Command {
