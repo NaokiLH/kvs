@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate clap;
 use clap::App;
-use kvs::{KvStore, KvsError, Result};
+use kvs::{KvStore, KvsEngine, KvsError, Result};
 use std::env::current_dir;
 use std::process::exit;
 

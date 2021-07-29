@@ -1,7 +1,7 @@
-name: kvs
+name: kvs-client
 version: "0.1.1"
 author: NaokiLH. <2629936804@qq.com>
-about: the kv store
+about: kvs store client cmd
 subcommands:
   - set:
       about: Set the value of a string key to a string
@@ -12,15 +12,27 @@ subcommands:
         - VALUE:
             required: true
             help: The string value of the key
+        - addr:
+            value_name: ADDRESS_FORMAT
+            help: Sets the server address
+            takes_value: true
   - get:
       about: Get the string value of a given string key
       args:
         - KEY:
             required: true
             help: a string key
+        - addr:
+            value_name: ADDRESS_FORMAT
+            help: Sets the server address
+            takes_value: true
   - rm:
       about: Remove a given key
       args:
         - KEY:
             required: true
             help: a string key
+        - addr:
+            value_name: ADDRESS_FORMAT
+            help: Sets the server address
+            takes_value: true

@@ -1,4 +1,7 @@
+mod client;
+mod common;
+mod engines;
 mod error;
-mod kv;
+mod server;
+pub use engines::{KvStore, KvsEngine};
 pub use error::{KvsError, Result};
-pub use kv::KvStore;

@@ -1,0 +1,13 @@
+name: kvs-server
+version: "0.1.1"
+author: NaokiLH. <2629936804@qq.com>
+about: kvs store server cmd
+args:
+  - addr:
+      value_name: IP:PORT
+      help: Sets the listening address
+      takes_value: true
+  - engine:
+      help: Sets the storage engine
+      takes_value: true
+      value_name: ENGINE-NAME

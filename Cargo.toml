@@ -7,12 +7,19 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version="*", features=["yaml"] }
-serde = { version="1.0.89", features=["derive"] }
+clap = { version = "*", features = ["yaml"] }
+serde = { version = "1.0.89", features = ["derive"] }
 serde_json = "1.0.39"
 failure = "*"
+log = "*"
+env_logger = "*"
+sled = "*"
+
+
 [dev-dependencies]
 assert_cmd = "*"
-predicates = "1.0.0"
-tempfile = "3.0.7"
-walkdir = "2.2.7"
+predicates = "*"
+tempfile = "*"
+walkdir = "*"
+rand = "*"
+criterion = "*"
