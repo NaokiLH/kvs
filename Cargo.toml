@@ -14,7 +14,7 @@ failure = "*"
 log = "*"
 env_logger = "*"
 sled = "*"
-
+structopt = "*"
 
 [dev-dependencies]
 assert_cmd = "*"

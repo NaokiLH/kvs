@@ -42,7 +42,6 @@ impl KvsClient {
         }
     }
 
-    /// Remove a string key in the server.
     pub fn remove(&mut self, key: String) -> Result<()> {
         serde_json::to_writer(&mut self.writer, &Request::Remove { key })?;
         self.writer.flush()?;

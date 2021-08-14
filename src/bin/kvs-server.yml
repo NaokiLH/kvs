@@ -4,10 +4,12 @@ author: NaokiLH. <2629936804@qq.com>
 about: kvs store server cmd
 args:
   - addr:
+      long: addr
       value_name: IP:PORT
       help: Sets the listening address
       takes_value: true
   - engine:
+      long: engine
       help: Sets the storage engine
       takes_value: true
       value_name: ENGINE-NAME
