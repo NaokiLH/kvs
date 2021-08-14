@@ -30,6 +30,7 @@ fn main() -> Result<()> {
         Some(str) if str == "sled" => Engine::Sled,
         _ => Engine::Kvs,
     };
+
     let engine = match current_engine() {
         Ok(Some(engine)) if engine != opt_engine => {
             error!("Wrong engine!");
@@ -38,6 +39,7 @@ fn main() -> Result<()> {
         _ => opt_engine,
     };
 
+    info!("sadasd");
     info!("kvs-server {}", env!("CARGO_PKG_VERSION"));
     info!("Storage engine: {}", engine);
     info!("Listening on {}", addr);

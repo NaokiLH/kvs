@@ -13,6 +13,7 @@ subcommands:
             required: true
             help: The string value of the key
         - addr:
+            long: addr
             value_name: ADDRESS_FORMAT
             help: Sets the server address
             takes_value: true
@@ -23,6 +24,7 @@ subcommands:
             required: true
             help: a string key
         - addr:
+            long: addr
             value_name: ADDRESS_FORMAT
             help: Sets the server address
             takes_value: true
@@ -33,6 +35,7 @@ subcommands:
             required: true
             help: a string key
         - addr:
+            long: addr
             value_name: ADDRESS_FORMAT
             help: Sets the server address
             takes_value: true

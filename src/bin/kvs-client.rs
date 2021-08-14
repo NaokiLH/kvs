@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate clap;
+use log::{error, info, warn};
+use std::net::SocketAddr;
 
 use clap::App;
 use kvs::{KvsClient, Result};
@@ -12,15 +14,16 @@ fn main() -> Result<()> {
 
     match m.subcommand() {
         ("set", Some(matches)) => {
+            info!("dsadas");
             let key = matches.value_of("KEY").unwrap().to_string();
             let value = matches.value_of("VALUE").unwrap().to_string();
-            let addr = matches.value_of("addr").unwrap();
+            let addr: SocketAddr = matches.value_of("addr").unwrap().parse().unwrap();
             let mut client = KvsClient::connect(addr)?;
             client.set(key, value)?;
         }
         ("get", Some(matches)) => {
             let key = matches.value_of("KEY").unwrap().to_string();
-            let addr = matches.value_of("addr").unwrap();
+            let addr: SocketAddr = matches.value_of("addr").unwrap().parse().unwrap();
             let mut client = KvsClient::connect(addr)?;
             if let Some(value) = client.get(key.to_string())? {
                 println!("{}", value);
@@ -30,7 +33,7 @@ fn main() -> Result<()> {
         }
         ("rm", Some(matches)) => {
             let key = matches.value_of("KEY").unwrap().to_string();
-            let addr = matches.value_of("addr").unwrap();
+            let addr: SocketAddr = matches.value_of("addr").unwrap().parse().unwrap();
             let mut client = KvsClient::connect(addr)?;
             client.remove(key)?;
         }
