@@ -21,5 +21,9 @@ assert_cmd = "*"
 predicates = "*"
 tempfile = "*"
 walkdir = "*"
-rand = "*"
+rand = "0.6.5"
 criterion = "*"
+
+[[bench]]
+name = "engine_bench"
+harness = false

@@ -39,7 +39,6 @@ fn main() -> Result<()> {
         _ => opt_engine,
     };
 
-    info!("sadasd");
     info!("kvs-server {}", env!("CARGO_PKG_VERSION"));
     info!("Storage engine: {}", engine);
     info!("Listening on {}", addr);
@@ -62,8 +61,8 @@ fn current_engine() -> Result<Option<Engine>> {
     }
 
     match fs::read_to_string(engine) {
-        Ok(str) if str.as_str() == "kvs" => Ok(Some(Engine::Kvs)),
-        Ok(str) if str.as_str() == "sled" => Ok(Some(Engine::Sled)),
+        Ok(str) if str.as_str() == "Kvs" => Ok(Some(Engine::Kvs)),
+        Ok(str) if str.as_str() == "Sled" => Ok(Some(Engine::Sled)),
         _ => {
             warn!("the content of engine file is invalid");
             Ok(None)

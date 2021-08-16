@@ -1,20 +1,18 @@
 #[macro_use]
 extern crate clap;
-use log::{error, info, warn};
+use log::warn;
 use std::net::SocketAddr;
 
 use clap::App;
 use kvs::{KvsClient, Result};
 
-const DEFAULT_LISTENING_ADDRESS: &str = "127.0.0.1:4000";
-const ADDRESS_FORMAT: &str = "IP:PORT";
 fn main() -> Result<()> {
     let yaml = load_yaml!("kvs-client.yml");
     let m = App::from_yaml(yaml).get_matches();
 
     match m.subcommand() {
         ("set", Some(matches)) => {
-            info!("dsadas");
+            warn!("dsadas");
             let key = matches.value_of("KEY").unwrap().to_string();
             let value = matches.value_of("VALUE").unwrap().to_string();
             let addr: SocketAddr = matches.value_of("addr").unwrap().parse().unwrap();
