@@ -328,7 +328,7 @@ fn cli_access_server(engine: &str, addr: &str) {
 
 #[test]
 fn cli_access_server_kvs_engine() {
-    cli_access_server("kvs", "127.0.0.1:4007");
+    cli_access_server("kvs", "127.0.0.1:4004");
 }
 
 #[test]
