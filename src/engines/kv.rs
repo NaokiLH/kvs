@@ -238,7 +238,7 @@ impl KvStoreWriter {
         let mut new_pos = 0;
 
         for entry in self.index.iter() {
-            let len = self.reader.read_and(*entry.value(), |entry_reader| {
+            let len = self.reader.read_and(*entry.value(), |mut entry_reader| {
                 Ok(io::copy(&mut entry_reader, &mut compaction_writer)?)
             })?;
 

@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate clap;
 use clap::App;
+use kvs::thread_pool::*;
 use kvs::*;
 use log::LevelFilter;
 use log::{error, info, warn};
@@ -38,7 +39,7 @@ fn main() -> Result<()> {
         }
         _ => opt_engine,
     };
-
+    let pool = RayonThreadPool::new(num_cpus::get() as u32)?;
     info!("kvs-server {}", env!("CARGO_PKG_VERSION"));
     info!("Storage engine: {}", engine);
     info!("Listening on {}", addr);
@@ -46,12 +47,12 @@ fn main() -> Result<()> {
     let addr: SocketAddr = addr.parse().unwrap();
 
     match engine {
-        Engine::Kvs => run_with_engine(KvStore::open(current_dir()?)?, addr),
-        Engine::Sled => run_with_engine(SledKvsEngine::new(sled::open(current_dir()?)?), addr),
+        Engine::Kvs => run_with(KvStore::open(current_dir()?)?, pool, addr),
+        Engine::Sled => run_with(SledKvsEngine::new(sled::open(current_dir()?)?), pool, addr),
     }
 }
-fn run_with_engine<E: KvsEngine>(engine: E, addr: SocketAddr) -> Result<()> {
-    let server = KvsServer::new(engine);
+fn run_with<E: KvsEngine, P: ThreadPool>(engine: E, pool: P, addr: SocketAddr) -> Result<()> {
+    let server = KvsServer::new(engine, pool);
     server.run(addr)
 }
 fn current_engine() -> Result<Option<Engine>> {
