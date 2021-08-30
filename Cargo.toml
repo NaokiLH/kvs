@@ -26,7 +26,7 @@ predicates = "*"
 tempfile = "*"
 walkdir = "*"
 rand = "0.6.5"
-criterion = "*"
+criterion = "0.3"
 crossbeam-utils = "0.6.5"
 panic-control = "0.1.4"
 
