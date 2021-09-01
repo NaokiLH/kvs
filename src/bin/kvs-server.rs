@@ -39,7 +39,7 @@ fn main() -> Result<()> {
         }
         _ => opt_engine,
     };
-    let pool = RayonThreadPool::new(num_cpus::get() as u32)?;
+    let pool = SharedQueueThreadPool::new(num_cpus::get() as u32)?;
     info!("kvs-server {}", env!("CARGO_PKG_VERSION"));
     info!("Storage engine: {}", engine);
     info!("Listening on {}", addr);

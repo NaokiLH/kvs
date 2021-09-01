@@ -324,7 +324,6 @@ fn new_log_file(
 
     Ok(writer)
 }
-
 fn recover_log(dir: &Path, gen: u64) -> PathBuf {
     dir.join(format!("{}.log", gen))
 }
