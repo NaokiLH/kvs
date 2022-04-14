@@ -18,6 +18,7 @@ use std::{
     io,
     path::{Path, PathBuf},
 };
+
 const COMPACTION_THRESHOLD: u64 = 1024 * 1024;
 
 #[derive(Clone)]
@@ -311,7 +312,7 @@ fn new_log_file(
     gen: u64,
     //readers: &mut HashMap<u64, BufReaderWithPos<File>>,
 ) -> Result<BufWriterWithPos<File>> {
-    let path = recover_log(&path, gen);
+    let path = recover_log(path, gen);
     let writer = BufWriterWithPos::new(
         OpenOptions::new()
             .create(true)

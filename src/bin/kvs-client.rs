@@ -23,7 +23,7 @@ fn main() -> Result<()> {
             let key = matches.value_of("KEY").unwrap().to_string();
             let addr: SocketAddr = matches.value_of("addr").unwrap().parse().unwrap();
             let mut client = KvsClient::connect(addr)?;
-            if let Some(value) = client.get(key.to_string())? {
+            if let Some(value) = client.get(key)? {
                 println!("{}", value);
             } else {
                 println!("Key not found");

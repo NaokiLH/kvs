@@ -15,3 +15,4 @@ cargo test
 ```sh
 cd target/release
 ./kvs-client -h
+```

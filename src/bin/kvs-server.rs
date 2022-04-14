@@ -43,6 +43,7 @@ fn main() -> Result<()> {
     info!("kvs-server {}", env!("CARGO_PKG_VERSION"));
     info!("Storage engine: {}", engine);
     info!("Listening on {}", addr);
+    info!("nmsl");
     fs::write(current_dir()?.join("engine"), format!("{}", engine))?;
     let addr: SocketAddr = addr.parse().unwrap();
 
